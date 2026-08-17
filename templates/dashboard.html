@@ -1,0 +1,291 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Brain Tumor Detection Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+       body {
+    background-image:url("{% static 'images/background.png' %}");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    padding:40px 20px;
+}
+
+        .dashboard {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 50px;
+            color: #1f2937;
+        }
+
+        .header p {
+            color: #6b7280;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #1f2937;
+            margin: 30px 0 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .12);
+            transition: .3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card h2 {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 20px;
+        }
+
+        .blue {
+            background: linear-gradient(135deg, #0066ff, #00a2ff);
+        }
+
+        .red {
+            background: linear-gradient(135deg, #ff1744, #ff5252);
+        }
+
+        .orange {
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+        }
+
+        .purple {
+            background: linear-gradient(135deg, #6200ea, #7c4dff);
+        }
+
+        .green {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .dark {
+            background: linear-gradient(135deg, #374151, #111827);
+        }
+
+        .actions {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            background: #0d6efd;
+            font-size: 18px;
+            transition: .3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .report-box {
+            margin-top: 40px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+        }
+
+        .report-box table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-box th,
+        .report-box td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .report-box th {
+            background: #f3f4f6;
+        }
+
+        @media(max-width:768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .card h2 {
+                font-size: 35px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <div class="header">
+            <h1>🏥 Doctor Dashboard</h1>
+            <p>Brain Tumor Detection and MRI Analysis System</p>
+        </div>
+
+        <h2 class="section-title">📊 Patient Statistics</h2>
+
+        <div class="stats-grid">
+
+            <div class="card blue">
+                <h2>{{ total_scans }}</h2>
+                <p>🧑 Patients</p>
+            </div>
+
+            <div class="card blue">
+                <h2>{{ total_scans }}</h2>
+                <p>🧠 MRI Scans</p>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">🧬 Tumor Analysis</h2>
+
+        <div class="stats-grid">
+
+            <div class="card red">
+                <h2>{{ glioma }}</h2>
+                <p>🔴 Glioma Cases</p>
+            </div>
+
+            <div class="card orange">
+                <h2>{{ meningioma }}</h2>
+                <p>🟠 Meningioma Cases</p>
+            </div>
+
+            <div class="card purple">
+                <h2>{{ pituitary }}</h2>
+                <p>🟣 Pituitary Cases</p>
+            </div>
+
+            <div class="card green">
+                <h2>{{ no_tumor }}</h2>
+                <p>🟢 No Tumor Cases</p>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">📈 System Statistics</h2>
+
+        <div class="stats-grid">
+
+            <div class="card blue">
+                <h2>95.12%</h2>
+                <p>📈 Detection Accuracy</p>
+            </div>
+
+            <div class="card orange">
+                <h2>{{ today_scans }}</h2>
+                <p>📅 Today's MRI Scans</p>
+            </div>
+
+            <div class="card dark">
+                <h2>
+                    {% if last_analysis %}
+                    {{ last_analysis.created_at|date:"d M Y H:i" }}
+                    {% else %}
+                    No Data
+                    {% endif %}
+                </h2>
+
+                <p>🕒 Last Analysis</p>
+            </div>
+
+            <div class="card green">
+                <h2>{{ reports_generated }}</h2>
+                <p>📄 Reports Generated</p>
+            </div>
+
+        </div>
+
+        <div class="actions">
+
+            <a href="/brain/" class="btn">
+                ➕ New MRI Analysis
+            </a>
+
+            <a href="/history/" class="btn">
+                📋 Patient History
+            </a>
+
+        </div>
+
+        <div class="report-box">
+
+            <h2 style="margin-bottom:20px;">
+                📄 Recent Analysis Summary
+            </h2>
+
+            <table>
+
+                <tr>
+                    <th>Total Cases</th>
+                    <th>Glioma</th>
+                    <th>Meningioma</th>
+                    <th>Pituitary</th>
+                    <th>No Tumor</th>
+                </tr>
+
+                <tr>
+                    <td>{{ total_scans }}</td>
+                    <td>{{ glioma }}</td>
+                    <td>{{ meningioma }}</td>
+                    <td>{{ pituitary }}</td>
+                    <td>{{ no_tumor }}</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

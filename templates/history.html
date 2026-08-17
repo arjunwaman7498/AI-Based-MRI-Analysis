@@ -1,0 +1,504 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>MRI Analysis History</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+    background-image: url("{% static 'images/background.png' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    padding: 30px;
+}
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1565c0;
+            margin-bottom: 25px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 10px;
+            transition: .3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .dashboard {
+            background: #1976d2;
+        }
+
+        .clear {
+            background: #d32f2f;
+        }
+
+        .show {
+            background: #0288d1;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #d9e2ec;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+            text-align: center;
+        }
+
+        .chart-container canvas {
+            max-width: 350px;
+            margin: auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h2 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .gallery-title {
+            color: #1565c0;
+            margin-bottom: 25px;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .1);
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .mri-image {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .details {
+            padding: 20px;
+        }
+
+        .patient-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .prediction {
+            display: inline-block;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 30px;
+            margin-bottom: 15px;
+        }
+
+        .glioma {
+            background: #e53935;
+        }
+
+        .meningioma {
+            background: #fb8c00;
+        }
+
+        .pituitary {
+            background: #3949ab;
+        }
+
+        .notumor {
+            background: #43a047;
+        }
+
+        .date {
+            color: gray;
+            margin-bottom: 18px;
+        }
+
+        .report-btn {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            background: #2e7d32;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        @media (max-width:900px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width:600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>🧠 MRI Analysis History</h1>
+
+            <div class="buttons">
+
+                <a href="/dashboard/" class="btn dashboard">
+                    <i class="fa fa-chart-line"></i>
+                    Dashboard
+                </a>
+
+                <a href="/clear-history/" class="btn clear">
+                    <i class="fa fa-trash"></i>
+                    Clear History
+                </a>
+
+                <a href="/history/" class="btn show">
+                    <i class="fa fa-list"></i>
+                    Show All
+                </a>
+
+            </div>
+
+            <input type="text"
+                class="search-box"
+                placeholder="🔍 Search by patient name...">
+
+        </div>
+
+        <div class="chart-container">
+
+            <h2 style="color:#1565c0; margin-bottom:20px;">
+                📊 Tumor Distribution
+            </h2>
+
+            <canvas id="tumorChart"></canvas>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat-card filter-card"
+                data-filter="Glioma Tumor">
+
+                <h2>{{ glioma }}</h2>
+
+                <p>🔴 Glioma</p>
+
+            </div>
+
+            <div class="stat-card filter-card"
+                data-filter="Meningioma Tumor">
+
+                <h2>{{ meningioma }}</h2>
+
+                <p>🟠 Meningioma</p>
+
+            </div>
+
+            <div class="stat-card filter-card"
+                data-filter="Pituitary Tumor">
+
+                <h2>{{ pituitary }}</h2>
+
+                <p>🟣 Pituitary</p>
+
+            </div>
+
+            <div class="stat-card filter-card"
+                data-filter="No Tumor Detected">
+
+                <h2>{{ no_tumor }}</h2>
+
+                <p>🟢 No Tumor</p>
+
+            </div>
+
+        </div>
+
+        <h2 class="gallery-title">
+
+            Recent MRI Analyses
+
+        </h2>
+
+        <div class="history-grid">
+
+            {% for patient in patients %}
+
+            <div class="card"
+                data-prediction="{{ patient.prediction|lower }}">
+
+                <a href="{{ patient.mri_image.url }}"
+                    target="_blank">
+
+                    <img src="{{ patient.mri_image.url }}"
+                        class="mri-image">
+
+                </a>
+
+                <div class="details">
+
+                    <div class="patient-header">
+
+                        <span class="patient-name">
+                            {{ patient.name }}
+                        </span>
+
+                        <span>
+                            {{ patient.age }} Years
+                        </span>
+
+                    </div>
+
+                    {% if patient.prediction == "Glioma Tumor" %}
+
+                    <div class="prediction glioma">
+                        🔴 {{ patient.prediction }}
+                    </div>
+
+                    {% elif patient.prediction == "Meningioma Tumor" %}
+
+                    <div class="prediction meningioma">
+                        🟠 {{ patient.prediction }}
+                    </div>
+
+                    {% elif patient.prediction == "Pituitary Tumor" %}
+
+                    <div class="prediction pituitary">
+                        🟣 {{ patient.prediction }}
+                    </div>
+
+                    {% else %}
+
+                    <div class="prediction notumor">
+                        🟢 {{ patient.prediction }}
+                    </div>
+
+                    {% endif %}
+
+                    <div class="date">
+
+                        <i class="fa fa-calendar"></i>
+
+                        {{ patient.created_at|date:"d M Y • H:i" }}
+
+                    </div>
+
+                    <a href="/download-report/{{ patient.id }}/"
+                        class="report-btn">
+
+                        <i class="fa fa-file-pdf"></i>
+
+                        Download Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty">
+
+                <h2>No MRI records found.</h2>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <script>
+        new Chart(
+            document.getElementById("tumorChart"), {
+                type: "pie",
+
+                data: {
+                    labels: [
+                        "Glioma",
+                        "Meningioma",
+                        "Pituitary",
+                        "No Tumor"
+                    ],
+
+                    datasets: [{
+                        data: [
+                            {{glioma}},
+                            {{meningioma}},
+                            {{pituitary}},
+                            {{no_tumor}}
+                        ],
+
+                        backgroundColor: [
+                            "#e53935",
+                            "#fb8c00",
+                            "#3949ab",
+                            "#43a047"
+                        ]
+                    }]
+                }
+            }
+        );
+
+        const searchBox =
+            document.querySelector(".search-box");
+
+        const cards =
+            document.querySelectorAll(".card");
+
+        searchBox.addEventListener(
+            "keyup",
+            function() {
+
+                const value =
+                    this.value.toLowerCase();
+
+                cards.forEach(card => {
+
+                    const patient =
+                        card.querySelector(
+                            ".patient-name"
+                        ).textContent.toLowerCase();
+
+                    card.hidden =
+                        !patient.includes(value);
+
+                });
+
+            }
+        );
+
+        document.querySelectorAll(
+            ".filter-card"
+        ).forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    const filter =
+                        this.dataset.filter.toLowerCase();
+
+                    cards.forEach(card => {
+
+                        card.hidden =
+                            card.dataset.prediction !== filter;
+
+                    });
+
+                }
+            );
+
+        });
+    </script>
+
+</body>
+
+</html>

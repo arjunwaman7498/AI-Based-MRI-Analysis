@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI-Based MRI Analysis</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-image: url("{% static 'images/background.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #1e3a8a;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: block;
+            width: 250px;
+            padding: 15px;
+            margin: 15px auto;
+            text-decoration: none;
+            color: white;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        .doctor {
+            background: #2563eb;
+        }
+
+        .analyze {
+            background: #16a34a;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🧠 AI-Based MRI Analysis</h1>
+
+        <a href="/doctor-login/" class="btn doctor">
+            👨‍⚕️ Doctor Login
+        </a>
+
+        <a href="/brain/" class="btn analyze">
+            🧠 Analyze MRI
+        </a>
+
+    </div>
+
+</body>
+
+</html>

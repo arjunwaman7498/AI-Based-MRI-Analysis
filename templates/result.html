@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>MRI Analysis Result</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+<body
+style="
+background-image:url('{% static 'images/background.png' %}');
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
+">
+
+    <div class="container mt-5">
+
+        <div class="card shadow-lg p-5">
+
+            <h1 class="text-center mb-4">
+
+                MRI Analysis Result
+
+            </h1>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <h3>Patient Information</h3>
+
+                    <p>
+                        <strong>Name:</strong>
+
+                        {{ patient.name }}
+                    </p>
+
+                    <p>
+                        <strong>Age:</strong>
+
+                        {{ patient.age }}
+                    </p>
+
+                   <p>
+    <strong>Prediction:</strong>
+
+    {% if patient.prediction == "No Tumor Detected" %}
+        ✅ No Tumor Detected
+
+    {% else %}
+        🧠 {{ patient.prediction }} Detected
+
+    {% endif %}
+</p>
+
+                    <p>
+    <strong>Confidence:</strong>
+
+    {% if confidence >= 90 %}
+        <span>🟢 {{ confidence }}% (High Confidence)</span>
+
+    {% elif confidence >= 70 %}
+        <span>🟡 {{ confidence }}% (Moderate Confidence)</span>
+
+    {% else %}
+        <span>🔴 {{ confidence }}% (Low Confidence)</span>
+
+    {% endif %}
+</p>
+
+                </div>
+
+                <div class="col-md-6 text-center">
+
+                    <img src="{{ patient.mri_image.url }}"
+                        class="img-fluid rounded shadow"
+                        width="400">
+
+                </div>
+
+            </div>
+
+            <a href="/brain/"
+                class="btn btn-success mt-4">
+
+                Analyze Another MRI
+
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
