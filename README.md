@@ -126,11 +126,15 @@ Only authenticated doctors can access:
 
 *Main entry point of the application with separate options for doctors and MRI analysis.*
 
+<img width="1913" height="910" alt="image" src="https://github.com/user-attachments/assets/e16ce0b0-9ff5-43a1-9ad8-2aeced62a93f" />
+
 ---
 
 ## 🧠 MRI Upload Page
 
 *Users can upload MRI images and enter patient information.*
+
+<img width="1913" height="911" alt="image" src="https://github.com/user-attachments/assets/f6bffe86-e7e3-4958-ab70-14f7fbeac560" />
 
 ---
 
@@ -138,11 +142,15 @@ Only authenticated doctors can access:
 
 *Displays the predicted tumor type and the model's confidence score.
 
+<img width="1917" height="907" alt="image" src="https://github.com/user-attachments/assets/298e7990-112e-467a-b86e-72074fb7dcfb" />
+
 ---
 
 ## 👨‍⚕️ Doctor Login
 
 *Only authorized doctors can access the dashboard and patient history.*
+
+<img width="1896" height="901" alt="image" src="https://github.com/user-attachments/assets/c1efeff0-d432-4ddb-844f-91c9ef144b7e" />
 
 ---
 
@@ -150,11 +158,25 @@ Only authenticated doctors can access:
 
 *Provides statistics and a summary of MRI analyses.*
 
+<img width="1882" height="906" alt="image" src="https://github.com/user-attachments/assets/4c6aa22d-042b-4f45-9d94-201e3bdee3f5" />
+
+<img width="1891" height="897" alt="image" src="https://github.com/user-attachments/assets/97341ddb-4681-4a49-bf78-d23dbb5f760c" />
+
+
 ---
 
 ## 📋 MRI Analysis History
 
 *Displays previous MRI analyses and patient records.*
+
+<img width="1883" height="903" alt="image" src="https://github.com/user-attachments/assets/de71106e-7c5d-4e49-8a92-d6a1474426f6" />
+
+<img width="1882" height="905" alt="image" src="https://github.com/user-attachments/assets/4524bb97-cb0a-45c8-9509-6378fafc358e" />
+
+<img width="1890" height="905" alt="image" src="https://github.com/user-attachments/assets/154a5f8e-c02b-4f88-a8a0-dedf2084a2bc" />
+
+
+
 
 ## 👨‍💻 Author
 
