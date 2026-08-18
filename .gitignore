@@ -1,6 +1,38 @@
+# Python cache
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# Virtual environment
 venv/
+env/
+ENV/
+
+# Django
 db.sqlite3
+*.log
+
+# Media files (uploaded MRI images)
 media/
-ml/dataset/
+
+# Machine learning files
+ml/
+*.keras
+*.h5
+*.hdf5
+
+# IDE settings
+.vscode/
+.idea/
+
+# Operating system files
+Thumbs.db
+.DS_Store
+
+# Python build files
+build/
+dist/
+*.egg-info/
+
+# Environment variables
+.env
